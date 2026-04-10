@@ -2,70 +2,47 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="refresh" content="300">
 <title>Avance OT_CARAMINER</title>
 <style>
   body { font-family: Segoe UI, sans-serif; background: #f4f4f4; margin: 0; padding: 20px; }
-  h2 { color: #333; text-align: center; margin-bottom: 20px; }
+  h2 { color: #333; text-align: center; margin-bottom: 8px; }
+  .fecha { text-align: center; color: #666; font-size: 13px; margin-bottom: 24px; }
   .grid { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; }
-  .tile { background: #0078d4; color: white; border-radius: 8px; padding: 24px; width: 160px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
-  .tile.done { background: #107c10; }
-  .tile.mid { background: #d83b01; }
+  .tile { color: white; border-radius: 8px; padding: 24px; width: 160px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
   .tile h3 { margin: 0 0 10px; font-size: 14px; font-weight: 600; }
   .tile .pct { font-size: 48px; font-weight: bold; margin: 0; }
   .tile .label { font-size: 12px; margin-top: 4px; opacity: 0.85; }
-  .error { color: red; text-align: center; }
-  .loading { text-align: center; color: #666; }
 </style>
 </head>
 <body>
-<h2>Avance por Fase — OT_CARAMINER</h2>
-<div class="grid" id="grid"><p class="loading">Cargando...</p></div>
-
-<script>
-const PAT = "7VeflbGj5eGOpFIrCwZdf0rMIkjlVEh7rGfZaDLAa5RrSM67ck9LJQQJ99CDACAAAAA2lWy6AAASAZDOEdP5";
-const ORG = "diegosilvera";
-const PROJECT = "OT_CARAMINER";
-const EPICS = [
-  { id: 509, name: "PDD" },
-  { id: 510, name: "SDD" },
-  { id: 511, name: "Desarrollo" },
-  { id: 512, name: "QA" },
-  { id: 513, name: "Producción" }
-];
-
-const headers = {
-  "Authorization": "Basic " + btoa(":" + PAT),
-  "Content-Type": "application/json"
-};
-
-async function getAvance(epicId) {
-  const url = `https://dev.azure.com/${ORG}/${PROJECT}/_apis/wit/workitems/${epicId}?fields=Custom.AvancePct&api-version=7.1`;
-  const res = await fetch(url, { headers });
-  const data = await res.json();
-  return data.fields["Custom.AvancePct"] ?? 0;
-}
-
-async function render() {
-  const grid = document.getElementById("grid");
-  grid.innerHTML = "";
-  for (const epic of EPICS) {
-    try {
-      const pct = await getAvance(epic.id);
-      const cls = pct === 100 ? "done" : pct >= 50 ? "mid" : "";
-      grid.innerHTML += `
-        <div class="tile ${cls}">
-          <h3>${epic.name}</h3>
-          <p class="pct">${pct}%</p>
+<h2>Avance por Fase - OT_CARAMINER</h2>
+<p class="fecha">Actualizado: 10/04/2026 11:19</p>
+<div class="grid">
+        <div class="tile" style="background:#0078d4">
+          <h3>PDD</h3>
+          <p class="pct">0%</p>
           <p class="label">Avance</p>
-        </div>`;
-    } catch(e) {
-      grid.innerHTML += `<div class="tile"><h3>${epic.name}</h3><p class="pct">-</p></div>`;
-    }
-  }
-}
-
-render();
-</script>
+        </div>
+        <div class="tile" style="background:#0078d4">
+          <h3>SDD</h3>
+          <p class="pct">0%</p>
+          <p class="label">Avance</p>
+        </div>
+        <div class="tile" style="background:#0078d4">
+          <h3>Desarrollo</h3>
+          <p class="pct">0%</p>
+          <p class="label">Avance</p>
+        </div>
+        <div class="tile" style="background:#0078d4">
+          <h3>QA</h3>
+          <p class="pct">0%</p>
+          <p class="label">Avance</p>
+        </div>
+        <div class="tile" style="background:#0078d4">
+          <h3>Produccion</h3>
+          <p class="pct">0%</p>
+          <p class="label">Avance</p>
+        </div>
+</div>
 </body>
 </html>
